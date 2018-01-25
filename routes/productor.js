@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var model = require('../models/index');
  
-/* GET todo listing. */
 router.get('/', function(req, res, next) {
 	model.productors.findAll({})
         .then(productores => res.json({
@@ -16,14 +15,13 @@ router.get('/', function(req, res, next) {
         }));
 });
  
- 
-/* POST todo. */
 router.post('/', function(req, res, next) {
-    
+
     const {
         dni,
         nombre,
-        telefono
+        telefono,
+        chacras_ids
     } = req.body;
     
     model.productors.create({
@@ -31,20 +29,26 @@ router.post('/', function(req, res, next) {
             nombre: nombre,
             telefono: telefono,
         })
+        .then(newProductor => 
+            chacras_ids.forEach(function(valor, indice){
+                model.chacraproductors.create({
+                    chacraId: valor,
+                    productorId: newProductor.id
+                })
+                .then(chacraProductor => console.log("Asociación Chacra-Productor realizada correctamente."))
+                .catch(error => console.log(error))
+            }
+        ))
         .then(newProductor => res.status(201).json({
             error: false,
-            data: newProductor,
             message: 'Se ha ingresado correctamente el nuevo productor'
         }))
         .catch(error => res.json({
             error: true,
-            data: [],
-            error: error
+            message: 'Hubo un error al intentar cargar un nuevo productor. Contactese con el administrador.'
         }));
 });
  
- 
-/* update todo. */
 router.put('/:id', function(req, res, next) {
  
     const productor_id = req.params.id;
@@ -70,8 +74,6 @@ router.put('/:id', function(req, res, next) {
         }));
 });
  
- 
-/* GET todo listing. */
 router.delete('/:id', function(req, res, next) {
 
     const productor_id = req.params.id;

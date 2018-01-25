@@ -12,6 +12,10 @@ var users = require('./routes/users');
 var productores = require('./routes/productor');
 var chacras = require('./routes/chacra');
 var chacraProductores = require('./routes/chacraproductor');
+var camiones = require('./routes/camion');
+var empresas = require('./routes/empresa');
+var camionEmpresas = require('./routes/camionempresa');
+
 
 var app = express();
 
@@ -34,6 +38,9 @@ app.use('/users', users);
 app.use('/productor', productores);
 app.use('/chacra', chacras);
 app.use('/chacraProductor', chacraProductores);
+app.use('/camion', camiones);
+app.use('/empresa', empresas);
+app.use('/camionEmpresa', camionEmpresas);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
