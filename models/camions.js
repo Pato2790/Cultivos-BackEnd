@@ -36,5 +36,9 @@ module.exports = function (sequelize, DataTypes) {
     }
   });
 
+  camion.associate = function (models) {
+    camion.hasMany(models.lotes, {foreignKey: 'camionId'});
+  };
+
   return camion;
 };

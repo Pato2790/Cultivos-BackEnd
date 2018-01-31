@@ -28,5 +28,10 @@ module.exports = function (sequelize, DataTypes) {
     }
   });
 
+  especie.associate = function (models) {
+    especie.hasMany(models.variedads, {foreignKey: 'especieId'});
+    especie.hasMany(models.lotes, {foreignKey: 'especieId'});
+  };
+
   return especie;
 };

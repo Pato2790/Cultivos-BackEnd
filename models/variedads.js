@@ -36,5 +36,10 @@ module.exports = function (sequelize, DataTypes) {
     }
   });
 
+  variedad.associate = function (models) {
+    variedad.belongsTo(models.especies, {foreignKey: 'especieId'});
+    variedad.hasMany(models.lotes, {foreignKey: 'variedadId'});
+  };
+
   return variedad;
 };

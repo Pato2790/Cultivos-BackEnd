@@ -36,5 +36,9 @@ module.exports = function (sequelize, DataTypes) {
     }
   });
 
+  institucion.associate = function (models) {
+    institucion.hasMany(models.lotes, {foreignKey: 'institucionId'});
+  };
+
   return institucion;
 };

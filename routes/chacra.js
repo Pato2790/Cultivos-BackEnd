@@ -1,19 +1,23 @@
 var express = require('express');
 var router = express.Router();
 var model = require('../models/index');
+var Sequelize = require('sequelize');
  
-/* GET todo listing. */
 router.get('/', function(req, res, next) {
-	model.chacras.findAll({})
-        .then(chacras => res.json({
-            error: false,
-            data: chacras
-        }))
-        .catch(error => res.json({
-            error: true,
-            data: [],
-            error: error
-        }));
+	model.chacras.findAll({
+        include: [{
+            model: model.cuadros
+        }]
+    })
+    .then(chacras => res.status(201).json({
+        error: false,
+        data: chacras
+    }))
+    .catch(error => res.json({
+        error: true,
+        data: [],
+        error: error
+    }));
 });
  
  

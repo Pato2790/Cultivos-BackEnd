@@ -23,7 +23,11 @@ module.exports = function (sequelize, DataTypes) {
     updatedAt: {
       type: DataTypes.DATE,
       allowNull: false
-    }
+    },
+    createdFor: {
+      type: DataTypes.STRING(255),
+      allowNull: false
+    },
   },{
     classMethods: {
       associate: function(models) {
@@ -31,6 +35,10 @@ module.exports = function (sequelize, DataTypes) {
       }
     }
   });
+
+  ingreso.associate = function (models) {
+    ingreso.hasMany(models.lotes, {foreignKey: 'ingresoId'});
+  };
 
   return ingreso;
 };

@@ -16,6 +16,10 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER(11),
       allowNull: true
     },
+    cantBins: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true
+    },
     ingresoId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
@@ -29,6 +33,14 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       references: {
         model: 'especies',
+        key: 'id'
+      }
+    },
+    variedadId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      references: {
+        model: 'variedads',
         key: 'id'
       }
     },
@@ -71,6 +83,15 @@ module.exports = function (sequelize, DataTypes) {
       }
     }
   });
+
+  lote.associate = function (models) {
+    lote.belongsTo(models.ingresos, {foreignKey: 'ingresoId'});
+    lote.belongsTo(models.especies, {foreignKey: 'especieId'});
+    lote.belongsTo(models.variedads, {foreignKey: 'variedadId'});
+    lote.belongsTo(models.calidads, {foreignKey: 'calidadId'});
+    lote.belongsTo(models.camions, {foreignKey: 'camionId'});
+    lote.belongsTo(models.institucions, {foreignKey: 'institucionId'});
+  };
 
   return lote;
 };

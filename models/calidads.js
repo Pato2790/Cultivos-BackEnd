@@ -13,21 +13,19 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       defaultValue: 'Verde'
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false
-    }
-  }, {
+  },{
+    timestamps: false
+  },{
     classMethods: {
       associate: function(models) {
         // associations can be defined here
       }
     }
   });
+
+  calidad.associate = function (models) {
+    calidad.hasMany(models.lotes, {foreignKey: 'calidadId'});
+  };
   
   return calidad;
 };
