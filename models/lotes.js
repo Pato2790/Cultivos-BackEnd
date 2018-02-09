@@ -68,6 +68,14 @@ module.exports = function (sequelize, DataTypes) {
         key: 'id'
       }
     },
+    chacraId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      references: {
+        model: 'chacras',
+        key: 'id'
+      }
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false
@@ -91,6 +99,7 @@ module.exports = function (sequelize, DataTypes) {
     lote.belongsTo(models.calidads, {foreignKey: 'calidadId'});
     lote.belongsTo(models.camions, {foreignKey: 'camionId'});
     lote.belongsTo(models.institucions, {foreignKey: 'institucionId'});
+    lote.belongsTo(models.chacras, {foreignKey: 'chacraId'});
   };
 
   return lote;

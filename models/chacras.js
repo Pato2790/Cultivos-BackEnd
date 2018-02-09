@@ -34,6 +34,7 @@ module.exports = function (sequelize, DataTypes) {
 
   chacra.associate = function (models) {
     chacra.hasMany(models.cuadros);
+    chacra.hasMany(models.lotes, {foreignKey: 'chacraId'});
   };
 
   return chacra;
