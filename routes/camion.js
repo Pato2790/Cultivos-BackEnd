@@ -3,7 +3,11 @@ var router = express.Router();
 var model = require('../models/index');
  
 router.get('/', function(req, res, next) {
-	model.camions.findAll({})
+	model.camions.findAll({
+            include: [{
+                model: model.empresas
+            }]
+        })
         .then(camiones => res.json({
             error: false,
             data: camiones

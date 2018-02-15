@@ -1,28 +1,37 @@
-/* jshint indent: 2 */
-
-module.exports = function (sequelize, DataTypes) {
-  var camionempresa = sequelize.define('camionempresas', {
-    id: {
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  var viaje = sequelize.define('viajes', {
+  	id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
+    fecha: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    costo: {
+      type: DataTypes.INTEGER(5),
+      allowNull: true
+    },
+    createdFor: {
+      type: DataTypes.STRING(255),
+      allowNull: false
+    },
     camionId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true,
       references: {
         model: 'camions',
         key: 'id'
       }
     },
-    empresaId: {
+    institucionId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true,
       references: {
-        model: 'empresas',
+        model: 'institucions',
         key: 'id'
       }
     },
@@ -33,8 +42,8 @@ module.exports = function (sequelize, DataTypes) {
     updatedAt: {
       type: DataTypes.DATE,
       allowNull: false
-    }
-  }, {
+    },
+   },{
     classMethods: {
       associate: function(models) {
         // associations can be defined here
@@ -42,5 +51,11 @@ module.exports = function (sequelize, DataTypes) {
     }
   });
 
-  return camionempresa;
+  viaje.associate = function (models) {
+    viaje.belongsTo(models.institucions, {foreignKey: 'institucionId'});
+    viaje.belongsTo(models.camions, {foreignKey: 'camionId'});
+    viaje.hasMany(models.ingresos);
+  };
+
+  return viaje;
 };

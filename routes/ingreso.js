@@ -10,8 +10,6 @@ router.get('/', function(req, res, next) {
                     { model: model.especies },
                     { model: model.variedads },
                     { model: model.calidads },
-                    { model: model.camions },
-                    { model: model.institucions},
                     { model: model.chacras }
                 ]
             }]

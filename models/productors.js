@@ -36,5 +36,9 @@ module.exports = function (sequelize, DataTypes) {
     }
   });
 
+  productor.associate = function (models) {
+    productor.hasMany(models.chacras);
+  };
+
   return productor;
 };

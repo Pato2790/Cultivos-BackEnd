@@ -38,6 +38,7 @@ module.exports = function (sequelize, DataTypes) {
 
   cuadro.associate = function (models) {
     cuadro.belongsTo(models.chacras, {foreignKey: 'chacraId'});
+    cuadro.hasMany(models.lotes);
   };
 
   return cuadro;

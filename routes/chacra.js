@@ -5,9 +5,10 @@ var Sequelize = require('sequelize');
  
 router.get('/', function(req, res, next) {
 	model.chacras.findAll({
-        include: [{
-            model: model.cuadros
-        }]
+        include: [
+            { model: model.cuadros },
+            { model: model.productors }
+        ]
     })
     .then(chacras => res.status(201).json({
         error: false,

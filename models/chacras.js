@@ -16,6 +16,14 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: false
     },
+    productorId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      references: {
+        model: 'chacras',
+        key: 'id'
+      }
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false
@@ -34,7 +42,8 @@ module.exports = function (sequelize, DataTypes) {
 
   chacra.associate = function (models) {
     chacra.hasMany(models.cuadros);
-    chacra.hasMany(models.lotes, {foreignKey: 'chacraId'});
+    chacra.hasMany(models.lotes);
+    chacra.belongsTo(models.productors, {foreignKey: 'productorId'});
   };
 
   return chacra;

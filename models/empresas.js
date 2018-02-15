@@ -36,5 +36,9 @@ module.exports = function (sequelize, DataTypes) {
     }
   });
 
+   empresa.associate = function (models) {
+    empresa.hasMany(models.camions);
+  };
+
   return empresa;
 };

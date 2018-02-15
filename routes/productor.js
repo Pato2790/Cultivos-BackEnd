@@ -3,7 +3,11 @@ var router = express.Router();
 var model = require('../models/index');
  
 router.get('/', function(req, res, next) {
-	model.productors.findAll({})
+	model.productors.findAll({
+            include: [{
+                model: model.chacras
+            }]
+        })
         .then(productores => res.json({
             error: false,
             data: productores

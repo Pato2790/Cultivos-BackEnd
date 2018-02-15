@@ -20,6 +20,14 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
+    empresaId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      references: {
+        model: 'empresas',
+        key: 'id'
+      },
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false
@@ -37,7 +45,8 @@ module.exports = function (sequelize, DataTypes) {
   });
 
   camion.associate = function (models) {
-    camion.hasMany(models.lotes, {foreignKey: 'camionId'});
+    camion.belongsTo(models.empresas, { foreignKey: 'empresaId' });
+    //camion.hasMany(models.viajes, {foreignKey: 'camionId'});
   };
 
   return camion;

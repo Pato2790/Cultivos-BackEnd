@@ -52,27 +52,27 @@ module.exports = function (sequelize, DataTypes) {
         key: 'id'
       }
     },
-    camionId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'camions',
-        key: 'id'
-      }
-    },
-    institucionId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'institucions',
-        key: 'id'
-      }
-    },
     chacraId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       references: {
         model: 'chacras',
+        key: 'id'
+      }
+    },
+    tratamientoId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      references: {
+        model: 'tratamientos',
+        key: 'id'
+      }
+    },
+    cuadroId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      references: {
+        model: 'cuadros',
         key: 'id'
       }
     },
@@ -97,9 +97,10 @@ module.exports = function (sequelize, DataTypes) {
     lote.belongsTo(models.especies, {foreignKey: 'especieId'});
     lote.belongsTo(models.variedads, {foreignKey: 'variedadId'});
     lote.belongsTo(models.calidads, {foreignKey: 'calidadId'});
-    lote.belongsTo(models.camions, {foreignKey: 'camionId'});
-    lote.belongsTo(models.institucions, {foreignKey: 'institucionId'});
     lote.belongsTo(models.chacras, {foreignKey: 'chacraId'});
+    lote.belongsTo(models.tratamientos, {foreignKey: 'tratamientoId'});
+    lote.belongsTo(models.tratamientos, {foreignKey: 'cuadroId'});
+    
   };
 
   return lote;

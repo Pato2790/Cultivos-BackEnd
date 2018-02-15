@@ -16,6 +16,14 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true
     },
+    viajeId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      references: {
+        model: 'viajes',
+        key: 'id'
+      }
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false
@@ -37,7 +45,8 @@ module.exports = function (sequelize, DataTypes) {
   });
 
   ingreso.associate = function (models) {
-    ingreso.hasMany(models.lotes, {foreignKey: 'ingresoId'});
+    ingreso.hasMany(models.lotes);
+    ingreso.belongsTo(models.viajes, {foreignKey: 'viajeId'});
   };
 
   return ingreso;
