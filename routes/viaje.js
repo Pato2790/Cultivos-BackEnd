@@ -5,7 +5,10 @@ var model = require('../models/index');
 router.get('/', function(req, res, next) {
 	model.viajes.findAll({
             include: [
-                { model: model.ingresos },
+                { 
+                    model: model.ingresos,
+                    as: 'ingresos_viajes'
+                },
                 { model: model.camions },
                 { model: model.institucions },
             ]
@@ -21,51 +24,113 @@ router.get('/', function(req, res, next) {
         }));
 });
  
-/*router.post('/', function(req, res, next) {
+router.post('/withIngresos', function(req, res, next) {
 
     const {
-        nombre,
-        direccion,
-        telefono,
+        fecha,
+        costo,
+        createdFor,
+        institucionId,
+        camionId,
+        ingresos
     } = req.body;
-    
-    model.institucions.create({
-            nombre: nombre,
-            direccion: direccion,
-            telefono: telefono,
-        })
-        .then(newInstitucion => res.status(201).json({
-            error: false,
-            message: 'Se ha ingresado correctamente la nueva institucion'
-        }))
-        .catch(error => res.json({
-            error: true,
-            message: 'Hubo un error al intentar cargar una nueva institucion. Contactese con el administrador.'
-        }));
+
+    model.sequelize.transaction(function (t) 
+    {
+        return model.viajes.create(
+        {
+           fecha: fecha,
+           costo: costo,
+           createdFor: createdFor,
+           institucionId: institucionId,
+           camionId: camionId
+        }, { transaction : t })
+        .then(function(newViaje) {
+            var ingresosPromises = [];
+
+            ingresos.forEach(function(ingreso, indice){
+
+                ingresosPromises.push(model.ingresos.create(
+                    {
+                        nroRemito: ingreso.nroRemito,
+                        fechaIngreso: ingreso.fechaIngreso,
+                        createdFor: ingreso.createdFor,
+                        viajeId: newViaje.Id
+                    }, { transaction : t })
+                );
+            });
+            
+            return Promise.all(ingresosPromises)
+            .then(function(newIngresos) {
+                var viajesIngresosPromises = [];
+
+                newIngresos.forEach(function(newIngreso, indiceNewIngreso){
+                    viajesIngresosPromises.push(model.ingresoviajes.create(
+                        {
+                            viajeId: newViaje.id,
+                            ingresoId: newIngreso.id
+                        }, { transaction : t })
+                    );
+                });
+
+                return Promise.all(viajesIngresosPromises)
+                .then(function (newViajesIngresos) {
+                    var lotesPromise = [];
+                    ingresos.forEach(function(ingreso, indiceIngreso){
+                        ingreso.lotes.forEach(function(lote, indiceLote){
+                            lotesPromise.push(model.lotes.create(
+                                {
+                                    nroLote: lote.nroLote,
+                                    pesoNeto: lote.peso,
+                                    cantBins: lote.cantBins,
+                                    calidadId: lote.calidadId,
+                                    especieId: lote.especieId,
+                                    variedadId: lote.variedadId,
+                                    cuadroId: lote.cuadroId,
+                                    tratamientoId: lote.tratamientoId,
+                                    ingresoId: newIngresos[indiceIngreso].id,
+                                    chacraId: ingreso.chacraId
+                                },{ transaction : t })
+                            );
+                        });
+                    });
+                    return Promise.all(lotesPromise);
+                })
+            });
+            
+        });
+    })
+    .then(newViaje => res.json({
+        error: false,
+        message: 'Se ha ingresado correctamente el nuevo viaje'
+    }))
+    .catch(error => res.json({
+        error: true,
+        errors: error,
+        message: 'Hubo un error al intentar cargar un nuevo viaje. Contactese con el administrador.'
+    }));
 });
  
 router.put('/:id', function(req, res, next) {
  
-    const institucion_id = req.params.id;
+    const viaje_id = req.params.id;
  
     const {
-        nombre,
-        direccion,
-        telefono,
+        fecha,
+        costo,
     } = req.body;
  
-    model.institucions.update({
-            nombre: nombre,
-            direccion: direccion,
-            telefono: telefono,
+    model.viajes.update({
+            fecha: fecha,
+            costo: costo,
         }, {
             where: {
-                id: institucion_id
+                id: viaje_id
             }
         })
-        .then(updateInstitucion => res.status(201).json({
+        .then(updateViaje => res.status(201).json({
             error: false,
-            message: 'Se han actualizado los datos de la institucion correctamente'
+            message: 'Se han actualizado los datos del viaje correctamente'
         }))
         .catch(error => res.json({
             error: true,
@@ -75,21 +140,21 @@ router.put('/:id', function(req, res, next) {
  
 router.delete('/:id', function(req, res, next) {
 
-    const institucion_id = req.params.id;
+    const viaje_id = req.params.id;
  
-    model.institucions.destroy({ 
+    model.viajes.destroy({ 
         where: {
-            id: institucion_id
+            id: viaje_id
         }
     })
     .then(status => res.status(201).json({
         error: false,
-        message: 'La institucion ha sido eliminado'
+        message: 'EL viaje ha sido eliminado'
     }))
     .catch(error => res.json({
         error: true,
         error: error
     }));
-});*/
+});
  
 module.exports = router;

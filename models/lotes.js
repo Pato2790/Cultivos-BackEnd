@@ -99,7 +99,7 @@ module.exports = function (sequelize, DataTypes) {
     lote.belongsTo(models.calidads, {foreignKey: 'calidadId'});
     lote.belongsTo(models.chacras, {foreignKey: 'chacraId'});
     lote.belongsTo(models.tratamientos, {foreignKey: 'tratamientoId'});
-    lote.belongsTo(models.tratamientos, {foreignKey: 'cuadroId'});
+    lote.belongsTo(models.cuadros, {foreignKey: 'cuadroId'});
     
   };
 

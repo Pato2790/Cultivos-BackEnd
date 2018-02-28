@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     fecha: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false
     },
     costo: {
@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
   viaje.associate = function (models) {
     viaje.belongsTo(models.institucions, {foreignKey: 'institucionId'});
     viaje.belongsTo(models.camions, {foreignKey: 'camionId'});
-    viaje.hasMany(models.ingresos);
+    viaje.belongsToMany(models.ingresos, { as: 'ingresos_viajes', through: models.ingresoviajes, foreignKey: 'viajeId'});
   };
 
   return viaje;

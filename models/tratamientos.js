@@ -11,7 +11,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-  }, {
+  },{
+    timestamps: false
+  },{
     classMethods: {
       associate: function(models) {
         // associations can be defined here

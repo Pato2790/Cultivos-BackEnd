@@ -4,15 +4,28 @@ var model = require('../models/index');
  
 router.get('/', function(req, res, next) {
 	model.ingresos.findAll({
-            include: [{
-                model: model.lotes,
-                include: [
-                    { model: model.especies },
-                    { model: model.variedads },
-                    { model: model.calidads },
-                    { model: model.chacras }
-                ]
-            }]
+            include: [
+                {
+                    model: model.lotes,
+                    include: [
+                        { model: model.especies },
+                        { model: model.variedads },
+                        { model: model.calidads },
+                        { model: model.chacras },
+                        { model: model.tratamientos },
+                        { model: model.cuadros }
+                    ]
+                },
+                {
+                    model: model.viajes,
+                    as: 'ingresos_viajes',
+                    include: [
+                        { model: model.institucions },
+                        { model: model.camions },
+                    ],
+                }
+            ],
+            order: [[{ model: model.viajes, as: 'ingresos_viajes' }, 'fecha', 'DESC']]
         })
         .then(ingresos => res.status(201).json({
             error: false,
@@ -31,16 +44,16 @@ router.post('/', function(req, res, next) {
         nroRemito,
         fechaIngreso,
         createdFor,
-        institucionId,
-        camionId,
         chacraId,
+        viajeId,
         lotes
     } = req.body;
     
     model.ingresos.create({
             nroRemito: nroRemito,
             fechaIngreso: fechaIngreso,
-            createdFor: createdFor
+            createdFor: createdFor,
+            viajeId: viajeId
         })
         .then(newIngreso => 
             lotes.forEach(function(valor, indice){
@@ -51,8 +64,8 @@ router.post('/', function(req, res, next) {
                     calidadId: valor.calidadId,
                     especieId: valor.especieId,
                     variedadId: valor.variedadId,
-                    institucionId: institucionId,
-                    camionId: camionId,
+                    cuadroId: valor.cuadroId,
+                    tratamientoId: valor.tratamientoId,
                     ingresoId: newIngreso.id,
                     chacraId: chacraId
                 })
@@ -66,6 +79,7 @@ router.post('/', function(req, res, next) {
         }))
         .catch(error => res.json({
             error: true,
+            error: error,
             message: 'Hubo un error al intentar cargar un nuevo ingreso. Contactese con el administrador.'
         }));
 });

@@ -21,6 +21,7 @@ var ingresos = require('./routes/ingreso');
 var variedades = require('./routes/variedad');
 var lotes = require('./routes/lote');
 var viajes = require('./routes/viaje');
+var tratamientos = require('./routes/tratamiento');
 
 
 var app = express();
@@ -53,6 +54,8 @@ app.use('/ingreso', ingresos);
 app.use('/variedad', variedades);
 app.use('/lote', lotes);
 app.use('/viaje', viajes);
+app.use('/tratamiento', tratamientos);
+app.use('/viaje/withIngresos', tratamientos);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
