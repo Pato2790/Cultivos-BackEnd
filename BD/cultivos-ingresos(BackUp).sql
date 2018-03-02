@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-03-2018 a las 15:09:53
+-- Tiempo de generación: 21-02-2018 a las 21:50:29
 -- Versión del servidor: 10.1.16-MariaDB
 -- Versión de PHP: 5.6.24
 
@@ -167,52 +167,12 @@ INSERT INTO `especies` (`id`, `tipo`, `createdAt`, `updatedAt`) VALUES
 CREATE TABLE `ingresos` (
   `id` int(11) NOT NULL,
   `nroRemito` varchar(255) DEFAULT NULL,
-  `fechaIngreso` date DEFAULT NULL,
+  `fechaIngreso` datetime DEFAULT NULL,
   `createdAt` datetime NOT NULL,
+  `viajeId` int(11) NOT NULL,
   `updatedAt` datetime NOT NULL,
   `createdFor` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `ingresos`
---
-
-INSERT INTO `ingresos` (`id`, `nroRemito`, `fechaIngreso`, `createdAt`, `updatedAt`, `createdFor`) VALUES
-(1, '1234asdf', '2018-11-21', '2018-02-21 21:42:17', '2018-02-21 21:42:17', 'patricio.sartore@gmail.com'),
-(2, '3456qwerty', '2018-11-21', '2018-02-21 21:42:17', '2018-02-21 21:42:17', 'patricio.sartore@gmail.com'),
-(3, '2222prueba', '2018-11-26', '2018-02-26 13:18:15', '2018-02-26 13:18:15', 'patricio.sartore@gmail.com'),
-(4, '1111prueba', '2018-11-26', '2018-02-26 13:18:15', '2018-02-26 13:18:15', 'patricio.sartore@gmail.com'),
-(29, 'prueba1', '2018-11-27', '2018-02-27 14:17:52', '2018-02-27 14:17:52', 'patricio.sartore@gmail.com'),
-(30, 'prueba2', '2018-11-27', '2018-02-27 14:17:52', '2018-02-27 14:17:52', 'patricio.sartore@gmail.com'),
-(31, 'kjhdf1234', '2018-11-27', '2018-02-27 14:26:13', '2018-02-27 14:26:13', 'patricio.sartore@gmail.com'),
-(32, 'oiuwior234', '2018-11-27', '2018-02-27 14:26:13', '2018-02-27 14:26:13', 'patricio.sartore@gmail.com'),
-(34, 'qwer', '2018-11-27', '2018-02-27 17:37:02', '2018-02-27 17:37:02', 'patricio.sartore@gmail.com');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ingresoviajes`
---
-
-CREATE TABLE `ingresoviajes` (
-  `id` int(11) NOT NULL,
-  `viajeId` int(11) NOT NULL,
-  `ingresoId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `ingresoviajes`
---
-
-INSERT INTO `ingresoviajes` (`id`, `viajeId`, `ingresoId`) VALUES
-(9, 22, 1),
-(10, 22, 2),
-(11, 23, 1),
-(16, 43, 29),
-(17, 43, 30),
-(18, 44, 31),
-(19, 44, 32),
-(21, 46, 34);
 
 -- --------------------------------------------------------
 
@@ -234,8 +194,7 @@ CREATE TABLE `institucions` (
 --
 
 INSERT INTO `institucions` (`id`, `nombre`, `direccion`, `telefono`, `createdAt`, `updatedAt`) VALUES
-(1, 'Frio Cultivos', 'Alem 238', '12345678', '2018-02-21 10:53:43', '2018-02-21 10:53:44'),
-(2, 'Frio Kora', 'Alem 238', '12345678', '2018-02-22 17:08:52', '2018-02-22 17:08:53');
+(1, 'Frio Cultivos', 'Alem 238', '12345678', '2018-02-21 10:53:43', '2018-02-21 10:53:44');
 
 -- --------------------------------------------------------
 
@@ -258,25 +217,6 @@ CREATE TABLE `lotes` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `lotes`
---
-
-INSERT INTO `lotes` (`id`, `pesoNeto`, `cantBins`, `nroLote`, `ingresoId`, `especieId`, `calidadId`, `variedadId`, `chacraId`, `tratamientoId`, `cuadroId`, `createdAt`, `updatedAt`) VALUES
-(1, 1000, 10, 1, 1, 2, 1, 13, 9, 1, 1, '2018-02-21 21:42:17', '2018-02-21 21:42:17'),
-(2, 1000, 10, 1, 2, 1, 2, 1, 10, 1, 4, '2018-02-21 21:42:17', '2018-02-21 21:42:17'),
-(3, 700, 10, 2, 2, 1, 3, 3, 10, 3, 5, '2018-02-21 21:42:17', '2018-02-21 21:42:17'),
-(4, 1000, 10, 1, 3, 1, 1, 1, 9, 2, 1, '2018-02-26 13:18:15', '2018-02-26 13:18:15'),
-(5, 1000, 15, 2, 3, 1, 1, 3, 9, 3, 2, '2018-02-26 13:18:15', '2018-02-26 13:18:15'),
-(6, 1000, 10, 1, 4, 1, 1, 1, 10, 2, 1, '2018-02-26 13:18:15', '2018-02-26 13:18:15'),
-(13, 1000, 10, 1, 29, 1, 1, 1, 9, 1, 1, '2018-02-27 14:17:52', '2018-02-27 14:17:52'),
-(14, 2000, 20, 2, 29, 1, 1, 2, 9, 2, 2, '2018-02-27 14:17:52', '2018-02-27 14:17:52'),
-(15, 1000, 10, 1, 30, 2, 1, 13, 10, 3, 5, '2018-02-27 14:17:52', '2018-02-27 14:17:52'),
-(16, 1000, 10, 1, 31, 1, 1, 1, 9, 1, 1, '2018-02-27 14:26:13', '2018-02-27 14:26:13'),
-(17, 1000, 10, 2, 31, 2, 1, 15, 9, 4, 2, '2018-02-27 14:26:13', '2018-02-27 14:26:13'),
-(18, 2000, 20, 1, 32, 2, 3, 13, 10, 3, 5, '2018-02-27 14:26:13', '2018-02-27 14:26:13'),
-(20, 1000, 100, 1, 34, 1, 2, 2, 9, 1, 2, '2018-02-27 17:37:02', '2018-02-27 17:37:02');
 
 -- --------------------------------------------------------
 
@@ -488,12 +428,8 @@ CREATE TABLE `viajes` (
 --
 
 INSERT INTO `viajes` (`id`, `fecha`, `costo`, `createdFor`, `institucionId`, `camionId`, `createdAt`, `updatedAt`) VALUES
-(22, '2018-02-22', 1000, 'pato', 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(23, '2018-02-21', 2000, 'ale', 2, 2, '2018-02-22 15:53:13', '2018-02-22 15:53:14'),
-(30, '2018-11-26', 1000, 'patricio.sartore@gmail.com', 1, 1, '2018-02-26 13:18:15', '2018-02-26 13:18:15'),
-(43, '2018-11-27', 1000, 'patricio.sartore@gmail.com', 1, 1, '2018-02-27 14:17:52', '2018-02-27 14:17:52'),
-(44, '2018-11-27', 1000, 'patricio.sartore@gmail.com', 1, 2, '2018-02-27 14:26:13', '2018-02-27 14:26:13'),
-(46, '2018-11-27', 1000, 'patricio.sartore@gmail.com', 1, 2, '2018-02-27 17:37:02', '2018-02-27 17:37:02');
+(4, '2018-11-21', 1000, 'patricio.sartore@gmail.com', 1, 1, '2018-02-21 17:13:33', '2018-02-21 17:13:33'),
+(5, '2018-11-21', 1000, 'patricio.sartore@gmail.com', 1, 1, '2018-02-21 17:17:42', '2018-02-21 17:17:42');
 
 --
 -- Índices para tablas volcadas
@@ -542,15 +478,8 @@ ALTER TABLE `especies`
 -- Indices de la tabla `ingresos`
 --
 ALTER TABLE `ingresos`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `ingresoviajes`
---
-ALTER TABLE `ingresoviajes`
-  ADD PRIMARY KEY (`id`,`viajeId`,`ingresoId`),
-  ADD KEY `ingresoviaje_ibfk_1` (`viajeId`),
-  ADD KEY `ingresoviaje_ibfk_2` (`ingresoId`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ingreso_ibfk_1` (`viajeId`);
 
 --
 -- Indices de la tabla `institucions`
@@ -644,22 +573,17 @@ ALTER TABLE `especies`
 -- AUTO_INCREMENT de la tabla `ingresos`
 --
 ALTER TABLE `ingresos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
---
--- AUTO_INCREMENT de la tabla `ingresoviajes`
---
-ALTER TABLE `ingresoviajes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `institucions`
 --
 ALTER TABLE `institucions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `lotes`
 --
 ALTER TABLE `lotes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `productors`
 --
@@ -679,7 +603,7 @@ ALTER TABLE `variedads`
 -- AUTO_INCREMENT de la tabla `viajes`
 --
 ALTER TABLE `viajes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- Restricciones para tablas volcadas
 --
@@ -703,11 +627,10 @@ ALTER TABLE `cuadros`
   ADD CONSTRAINT `cuadros_ibfk_1` FOREIGN KEY (`chacraId`) REFERENCES `chacras` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `ingresoviajes`
+-- Filtros para la tabla `ingresos`
 --
-ALTER TABLE `ingresoviajes`
-  ADD CONSTRAINT `ingresoviaje_ibfk_1` FOREIGN KEY (`viajeId`) REFERENCES `viajes` (`id`),
-  ADD CONSTRAINT `ingresoviaje_ibfk_2` FOREIGN KEY (`ingresoId`) REFERENCES `ingresos` (`id`);
+ALTER TABLE `ingresos`
+  ADD CONSTRAINT `ingreso_ibfk_1` FOREIGN KEY (`viajeId`) REFERENCES `viajes` (`id`);
 
 --
 -- Filtros para la tabla `lotes`
