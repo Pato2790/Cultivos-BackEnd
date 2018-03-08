@@ -11,7 +11,12 @@ router.get('/', function(req, res, next) {
                         { model: model.especies },
                         { model: model.variedads },
                         { model: model.calidads },
-                        { model: model.chacras },
+                        { 
+                            model: model.chacras,
+                            include: [
+                                { model: model.productors },
+                            ],
+                        },
                         { model: model.tratamientos },
                         { model: model.cuadros }
                     ]
