@@ -24,10 +24,10 @@ router.post('/', function(req, res, next) {
         calidadId,
         especieId,
         variedadId,
-        institucionId,
-        camionId,
         ingresoId,
-        chacraId
+        chacraId,
+        tratamiendoId,
+        cuadroId
     } = req.body;
     
     model.lotes.create({
@@ -37,10 +37,10 @@ router.post('/', function(req, res, next) {
             calidadId: valor.calidadId,
             especieId: valor.especieId,
             variedadId: valor.variedadId,
-            institucionId: institucionId,
-            camionId: camionId,
             ingresoId: newIngreso.id,
-            chacraId: chacraId
+            chacraId: chacraId,
+            tratamiendoId: tratamiendoId,
+            cuadroId: cuadroId
         })
         .then(newLote => res.status(201).json({
             error: false,

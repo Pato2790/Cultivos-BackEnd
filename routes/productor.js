@@ -24,8 +24,7 @@ router.post('/', function(req, res, next) {
     const {
         dni,
         nombre,
-        telefono,
-        chacras_ids
+        telefono
     } = req.body;
     
     model.productors.create({
@@ -33,16 +32,6 @@ router.post('/', function(req, res, next) {
             nombre: nombre,
             telefono: telefono,
         })
-        .then(newProductor => 
-            chacras_ids.forEach(function(valor, indice){
-                model.chacraproductors.create({
-                    chacraId: valor,
-                    productorId: newProductor.id
-                })
-                .then(chacraProductor => console.log("Asociación Chacra-Productor realizada correctamente."))
-                .catch(error => console.log(error))
-            }
-        ))
         .then(newProductor => res.status(201).json({
             error: false,
             message: 'Se ha ingresado correctamente el nuevo productor'

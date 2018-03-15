@@ -25,12 +25,14 @@ router.post('/', function(req, res, next) {
         patenteChasis,
         patenteAcoplado,
         nombreChofer,
+        empresa_id
     } = req.body;
     
     model.camions.create({
             patenteChasis: patenteChasis,
             patenteAcoplado: patenteAcoplado,
             nombreChofer: nombreChofer,
+            empresaId: empresa_id
         })
         .then(newCamion => res.status(201).json({
             error: false,
@@ -50,12 +52,14 @@ router.put('/:id', function(req, res, next) {
         patenteChasis,
         patenteAcoplado,
         nombreChofer,
+        empresaId
     } = req.body;
  
     model.camions.update({
             patenteChasis: patenteChasis,
             patenteAcoplado: patenteAcoplado,
-            nombreChofer: nombreChofer
+            nombreChofer: nombreChofer,
+            empresaId: empresaId
         }, {
             where: {
                 id: camion_id

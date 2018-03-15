@@ -28,11 +28,13 @@ router.post('/', function(req, res, next) {
     const {
         nombre,
         renspa,
+        productor_id
     } = req.body;
     
     model.chacras.create({
             renspa: renspa,
-            nombre: nombre
+            nombre: nombre,
+            productorId: productor_id
         })
         .then(newChacra => res.status(201).json({
             error: false,
@@ -52,10 +54,16 @@ router.put('/:id', function(req, res, next) {
  
     const chracra_id = req.params.id;
  
-    const { renspa } = req.body;
+    const { 
+        nombre,
+        renspa,
+        productorId
+    } = req.body;
  
     model.chacras.update({
-            renspa: renspa
+            nombre: nombre,
+            renspa: renspa,
+            productorId: productorId
         }, {
             where: {
                 id: chracra_id

@@ -48,6 +48,7 @@ app.use('/camion', camiones);
 app.use('/empresa', empresas);
 app.use('/institucion', instituciones);
 app.use('/cuadro', cuadros);
+app.use('/cuadro/byChacra', cuadros);
 app.use('/calidad', calidades);
 app.use('/especie', especies);
 app.use('/ingreso', ingresos);

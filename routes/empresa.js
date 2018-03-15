@@ -24,27 +24,14 @@ router.post('/', function(req, res, next) {
     const {
         nombre,
         direccion,
-        telefono,
-        camiones_ids
+        telefono
     } = req.body;
-
-    console.log(camiones_ids);
     
     model.empresas.create({
             nombre: nombre,
             direccion: direccion,
             telefono: telefono,
         })
-        .then(newEmpresa => 
-            camiones_ids.forEach(function(valor, indice){
-                model.camionempresas.create({
-                    camionId: valor,
-                    empresaId: newEmpresa.id
-                })
-                .then(camionEmpresa => console.log("Asociación Camion-Empresa realizada correctamente."))
-                .catch(error => console.log(error))
-            }
-        ))
         .then(newEmpresa => res.status(201).json({
             error: false,
             message: 'Se ha ingresado correctamente la nueva empresa'

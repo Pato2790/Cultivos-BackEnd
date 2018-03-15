@@ -14,6 +14,26 @@ router.get('/', function(req, res, next) {
         error: error
     }));
 });
+
+router.get('/byChacra/:id', function(req, res, next) {
+    
+    const chacraId = req.params.id;
+
+    model.cuadros.findAll({
+        where: {
+                chacraId: chacraId
+            }
+    })
+    .then(cuadros => res.json({
+        error: false,
+        data: cuadros
+    }))
+    .catch(error => res.json({
+        error: true,
+        data: [],
+        error: error
+    }));
+});
  
 router.post('/', function(req, res, next) {
 
