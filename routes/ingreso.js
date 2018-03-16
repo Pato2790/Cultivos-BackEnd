@@ -43,6 +43,49 @@ router.get('/', function(req, res, next) {
         }));
 });
 
+router.get('/simplifyIngresos', function(req, res, next) {
+    model.ingresos.findAll({})
+        .then(ingresos => res.status(201).json({
+            error: false,
+            data: ingresos
+        }))
+        .catch(error => res.json({
+            error: true,
+            data: [],
+            error: error
+        }));
+});
+
+router.get('/withViajes/:id', function(req, res, next) {
+    
+    const ingresoId = req.params.id;
+
+    model.ingresos.findAll({
+            where: {
+                id: ingresoId
+            },
+            include: [
+                {
+                    model: model.viajes,
+                    as: 'ingresos_viajes',
+                    include: [
+                        { model: model.institucions },
+                        { model: model.camions },
+                    ],
+                }
+            ],
+        })
+        .then(ingresos => res.status(201).json({
+            error: false,
+            data: ingresos
+        }))
+        .catch(error => res.json({
+            error: true,
+            data: [],
+            error: error
+        }));
+});
+
 router.post('/', function(req, res, next) {
 
     const {

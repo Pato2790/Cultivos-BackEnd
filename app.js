@@ -52,6 +52,8 @@ app.use('/cuadro/byChacra', cuadros);
 app.use('/calidad', calidades);
 app.use('/especie', especies);
 app.use('/ingreso', ingresos);
+app.use('/ingreso/simplifyIngresos', ingresos);
+app.use('/ingreso//withViajes', ingresos);
 app.use('/variedad', variedades);
 app.use('/lote', lotes);
 app.use('/viaje', viajes);

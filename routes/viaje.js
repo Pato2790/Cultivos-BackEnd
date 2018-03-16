@@ -23,7 +23,47 @@ router.get('/', function(req, res, next) {
             error: error
         }));
 });
- 
+
+router.post('/', function(req, res, next) {
+
+    const {
+            fecha,
+            costo,
+            createdFor,
+            institucionId,
+            camionId,
+            ingresoId
+        } = req.body;
+
+    model.sequelize.transaction(function (t) 
+    {
+        return model.viajes.create(
+        {
+           fecha: fecha,
+           costo: costo,
+           createdFor: createdFor,
+           institucionId: institucionId,
+           camionId: camionId
+        }, { transaction : t })
+        .then(function(newViaje) {
+            return model.ingresoviajes.create(
+                {
+                    viajeId: newViaje.id,
+                    ingresoId: ingresoId
+                }, { transaction : t })            
+        });
+    })
+    .then(newViaje => res.json({
+        error: false,
+        message: 'Se ha ingresado correctamente el nuevo viaje'
+    }))
+    .catch(error => res.json({
+        error: true,
+        errors: error,
+        message: 'Hubo un error al intentar cargar un nuevo viaje. Contactese con el administrador.'
+    }));
+});
+
 router.post('/withIngresos', function(req, res, next) {
 
     const {
