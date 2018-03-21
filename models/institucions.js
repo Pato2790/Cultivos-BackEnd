@@ -17,7 +17,7 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: true
     },
     telefono: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.BIGINT,
       allowNull: true
     },
     createdAt: {
